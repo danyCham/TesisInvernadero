@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Greenhouse</string>
+    <string name="navigation_drawer_open">Navegación abierto</string>
+    <string name="navigation_drawer_close">Navegación cerrada</string>
+    <string name="nav_header_title">Greenhouse</string>
+    <string name="nav_header_subtitle">Control Software S.A.</string>
+    <string name="nav_header_desc">Navegación</string>
+    <string name="action_settings">Buscar</string>
+
+    <string name="menu_home">Principal</string>
+    <string name="menu_gallery">Galeria</string>
+    <string name="menu_slideshow">Quienes somos</string>
+</resources>
