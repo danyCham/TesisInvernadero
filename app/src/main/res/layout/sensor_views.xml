@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/side_nav_bar"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="3dp"
+    android:layout_margin="6dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/NombreLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/NombreSensor"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Nombre del sensor: " />
+            <TextView
+                android:id="@+id/tvSensorUser"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fulano" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ValorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/ValorSensor"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Valor sensor: " />
+            <TextView
+                android:id="@+id/tvValorSensor"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="90" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/MedidaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Medida"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Unidad de medida:  " />
+            <TextView
+                android:id="@+id/tvMedida"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grado" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LatitudLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Latitud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Latitud: " />
+            <TextView
+                android:id="@+id/tvLatitud"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-487845" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LongitudLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Longitud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Longitud: "/>
+            <TextView
+                android:id="@+id/tvLongitud"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-15456" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fechaReLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/FechaRegistro"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Fecha de registro: " />
+            <TextView
+                android:id="@+id/tvFechaReg"
+                android:textColor="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="15/12/2018" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/SemaforoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Semaforo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Semaforo: " />
+            <TextView
+                android:id="@+id/tvSemaforo"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="verde" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,16 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.invernadero.Model.Result;
 import com.app.invernadero.Model.Usuario;
-import com.app.invernadero.Utils.APIService;
 import com.app.invernadero.Utils.ApiAdaptar;
-import com.app.invernadero.Utils.RSA;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.MessageDigest;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView nameBV, nameDesc;
     EditText username, password;
     String tv_usuario, tv_password;
+    private static String  ENCRYPT_KEY="clave-compartida-no-reveloar-nunca";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,29 +94,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-        /*btn_new_contrasenia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "No se implementa este boton", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        btn_face.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "No se implementa este boton", Toast.LENGTH_LONG).show();
-            }
-        });
-        btn_google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "No se implementa este boton", Toast.LENGTH_LONG).show();
-            }
-        });*/
     }
     class UsuarioCallback implements Callback<Usuario> {
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onResponse(Call<Usuario> call, Response<Usuario> response) {
             Result responseUser = new Result();
@@ -120,34 +105,30 @@ public class LoginActivity extends AppCompatActivity {
 
             if(responseUser.getCodigoError().equalsIgnoreCase("0000") ) {
 
-                String passCrypt = crypt(responseUser.getClave());
-                Log.i("error", "clave encriptada: " + responseUser.getClave());
-                Log.i("error", "clave desencriptada: " + passCrypt);
+                if (responseUser.getEstado().equalsIgnoreCase("A")) {
 
-                if (responseUser.getClave().trim().equalsIgnoreCase(tv_password.trim())) {
+                    String passCrypt = descifra(Base64.getDecoder().decode(responseUser.getClave()));
 
-                /*int id_user = response.body().getId();
-                SharedPreferences preferencia = getSharedPreferences("ArchivoSP", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferencia.edit();
-                editor.putInt( RegistroActivity.ID_USER, id_user);
-                editor.putString(RegistroActivity.USER, response.body().getNombres());
-                editor.putString(RegistroActivity.MAIL, response.body().getUsuario());
-                editor.putInt(RegistroActivity.ROL, response.body().getRol());
-                editor.commit();*/
+                    if (passCrypt.trim().equalsIgnoreCase(tv_password.trim())) {
 
-                /*if (recordarPass.isChecked()){
-                    SharedPreferences preferenciaPass = getSharedPreferences("ArchivoSP", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editorPass = preferenciaPass.edit();
-                    editorPass.putString(RegistrarActivity.PASS, response.body().getClave());
-                    editorPass.commit();
-                }*/
+                        int id_user = responseUser.getIdUsuario();
+                        SharedPreferences preferencia = getSharedPreferences("ArchivoSP", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferencia.edit();
+                        editor.putInt(RegistroActivity.ID_USER, id_user);
+                        editor.putString(RegistroActivity.USER, responseUser.getNombre());
+                        editor.putString(RegistroActivity.MAIL, responseUser.getEmail());
+                        editor.putString(RegistroActivity.ROL, responseUser.getRol());
+                        editor.commit();
 
-                    Toast.makeText(LoginActivity.this, "Bienvenid@ " + responseUser.getNombre().trim() + " a la app Greenhouse", Toast.LENGTH_LONG).show();
-                    Intent intentHome = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intentHome);
+                        //Toast.makeText(LoginActivity.this, "Bienvenid@ " + responseUser.getNombre().trim() + " a la app Greenhouse", Toast.LENGTH_LONG).show();
+                        Intent intentHome = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intentHome);
 
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Su estado no le permite ingresar al sistema, contactese con el administrador", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(LoginActivity.this, responseUser.getMensajeError() , Toast.LENGTH_LONG).show();
@@ -160,24 +141,25 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Fallo la conexion "+t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-    public String crypt(String clave) {
-        String decode_text= null;
+    public String descifra(byte[] cifrado){
+        String sinCifrar = null;
         try {
-            //Creamos objeto de nuestra clase RSA
-            RSA rsa2 = new RSA();
-
-            //Le pasamos el contexto
-            rsa2.setContext(getBaseContext());
-
-            //Cargamos las claves que anteriormente
-            rsa2.openFromDiskPrivateKey("rsa.pri");
-            rsa2.openFromDiskPublicKey("rsa.pub");
-
-            //Desciframos
-            decode_text = rsa2.Decrypt(clave);
+            final Cipher aes = obtieneCipher();
+            final byte[] bytes = aes.doFinal(cifrado);
+            sinCifrar = new String(bytes, "UTF-8");
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        return decode_text;
+        return sinCifrar;
+    }
+
+    private Cipher obtieneCipher() throws Exception {
+        final String frase = "FraseLargaConDiferentesLetrasNumerosYCaracteresEspeciales_áÁéÉíÍóÓúÚüÜñÑ1234567890!#%$&()=%_NO_USAR_ESTA_FRASE!_";
+        final MessageDigest digest = MessageDigest.getInstance("SHA");
+        digest.update(frase.getBytes("UTF-8"));
+        final SecretKeySpec key = new SecretKeySpec(digest.digest(), 0, 16, "AES");
+        final Cipher aes = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        aes.init(Cipher.DECRYPT_MODE, key);
+        return aes;
     }
 }

@@ -35,8 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/antic"
-            android:text="Inicie seccion para continuar"
+            android:text="Inicie sesion para continuar"
             android:textSize="18sp"
+            android:textColor="@color/orange"
             android:transitionName="text_logo_2"/>
 
         <LinearLayout

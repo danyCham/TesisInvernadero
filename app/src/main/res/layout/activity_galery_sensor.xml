@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GalerySensor">
+
+    <TextView
+        android:id="@+id/txt_mensaje_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bn_buscar_sensor"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/orange"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        android:layout_marginLeft="-40dp"
+        android:layout_marginTop="-70dp"
+        android:layout_marginRight="-40dp"
+        android:background="@drawable/side_nav_bar">
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imagenlogoPricipal"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="-5dp"
+        android:src="@mipmap/ic_launcher_foreground" />
+
+    <LinearLayout
+        android:id="@+id/layout_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    Fecha Inicio: "
+            android:textSize="20dp"
+            android:textColor="#050505"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/tv_buscarIni"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese la fecha inicio"
+            android:textColor="#050505"
+            android:shadowColor="@color/orange"
+            android:textSize="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_2"
+        android:layout_below="@+id/layout_1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    Fecha fin: "
+            android:textSize="20dp"
+            android:textColor="#050505"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/tv_buscarFin"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese la fecha fin"
+            android:textColor="#050505"
+            android:shadowColor="@color/orange"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bn_buscar_sensor"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="buscar"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="-40dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/layout_2"
+        android:backgroundTint="@color/orange"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_sensor"
+        android:layout_width="395dp"
+        android:layout_height="676dp"
+        android:layout_below="@+id/bn_buscar_sensor"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</RelativeLayout>

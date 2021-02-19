@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,20 +19,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.invernadero.Model.Result;
 import com.app.invernadero.Model.Usuario;
 import com.app.invernadero.Model.UsuarioPost;
 import com.app.invernadero.Utils.ApiAdaptar;
-import com.app.invernadero.Utils.RSA;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.Calendar;
-import java.util.Objects;
 import java.util.regex.Pattern;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +45,13 @@ public class RegistroActivity extends AppCompatActivity {
     ImageView logo;
     TextView nameBV, nameDesc;
     EditText edt_nombre, edt_apellido, edt_direccion, edt_fecha, edt_email, edt_telefono, edt_pass, edt_pass_conf;
+
+    public static final String ID_USER ="id_usuario";
+    public static final String USER ="user";
+    public static final String MAIL ="mail";
+    public static final String PASS ="pass";
+    public static final String ROL ="rol";
+    public static String EMAIL ="";
 
     private int dia,mes,anio;
     private String fecha = "";
@@ -71,6 +81,7 @@ public class RegistroActivity extends AppCompatActivity {
         edt_pass_conf = findViewById(R.id.edt_pass_conf_reg);
 
         btn_reg_r.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 final int id_usuario = 0;
@@ -81,17 +92,6 @@ public class RegistroActivity extends AppCompatActivity {
                 final String direccion = edt_direccion.getText().toString().trim();
                 final String telefono = edt_telefono.getText().toString().trim();
                 final String fecha_nacimiento = edt_fecha.getText().toString().trim();
-                /*Date fecha_nac = null;
-                if (!TextUtils.isEmpty(fecha)) {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String strDate = fecha;
-                        fecha_nac = new Date(sdf.parse(strDate).getTime());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                final Date fecha_nacimiento = fecha_nac;*/
                 final String password = edt_pass.getText().toString().trim();
                 final String password_conf = edt_pass_conf.getText().toString().trim();
                 final int id_rol = 2;
@@ -111,7 +111,7 @@ public class RegistroActivity extends AppCompatActivity {
                         && (!TextUtils.isEmpty(password_conf) && password_conf.length() >= 8)
                         && (password.equals(password_conf))) {
 
-                    String passCrypt = crypt(password);
+                    String passCrypt = cifra(password);
 
                     UsuarioPost usuarioRegistro = new UsuarioPost();
                     usuarioRegistro.setPIdUsuario(id_usuario);
@@ -122,10 +122,12 @@ public class RegistroActivity extends AppCompatActivity {
                     usuarioRegistro.setPDireccion(direccion);
                     usuarioRegistro.setPFechaNacimiento(fecha_nacimiento);
                     usuarioRegistro.setPTelefono(telefono);
-                    usuarioRegistro.setPClave(password);
+                    usuarioRegistro.setPClave(passCrypt);
                     usuarioRegistro.setPIdRol(id_rol);
                     usuarioRegistro.setPEstado(estado);
                     usuarioRegistro.setPOpcion(opcion);
+
+                    EMAIL = usuarioRegistro.getPEmail();
 
                     Log.i("error", "Clave encriptada: " + passCrypt);
 
@@ -228,24 +230,24 @@ public class RegistroActivity extends AppCompatActivity {
                 anio = c.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(RegistroActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                if (monthOfYear < 9 && monthOfYear >= 0 && dayOfMonth <= 9 && dayOfMonth >0){
-                                    fecha = year + "-" + "0"+(monthOfYear + 1) + "-" + "0"+dayOfMonth;
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        if (monthOfYear < 9 && monthOfYear >= 0 && dayOfMonth <= 9 && dayOfMonth >0){
+                            fecha = year + "-" + "0"+(monthOfYear + 1) + "-" + "0"+dayOfMonth;
 
-                                } else if (monthOfYear < 9 && monthOfYear >= 0){
-                                    fecha = year + "-" + "0"+(monthOfYear + 1) + "-" +dayOfMonth;
+                        } else if (monthOfYear < 9 && monthOfYear >= 0){
+                            fecha = year + "-" + "0"+(monthOfYear + 1) + "-" +dayOfMonth;
 
-                                } else if (dayOfMonth <= 9 && dayOfMonth >0){
-                                    fecha = year + "-" +(monthOfYear + 1) + "-" + "0"+dayOfMonth;
+                        } else if (dayOfMonth <= 9 && dayOfMonth >0){
+                            fecha = year + "-" +(monthOfYear + 1) + "-" + "0"+dayOfMonth;
 
-                                } else {
-                                    fecha = year + "-" +(monthOfYear + 1) + "-" + dayOfMonth;
+                        } else {
+                            fecha = year + "-" +(monthOfYear + 1) + "-" + dayOfMonth;
 
-                                }
-                                edt_fecha.setText(fecha);
-                            }
-                        },
+                        }
+                        edt_fecha.setText(fecha);
+                    }
+                },
                         anio,
                         mes,
                         dia);
@@ -265,6 +267,11 @@ public class RegistroActivity extends AppCompatActivity {
             if(responseUser.getCodigoError().equalsIgnoreCase("0000") ) {
 
                 if(responseUser.getMensajeError().indexOf("Usuario creado exitosamente") == 0 ){
+                    SharedPreferences preferencia = getSharedPreferences("ArchivoSP", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencia.edit();
+                    editor.putString(MAIL, EMAIL);
+                    editor.commit();
+                    Log.i("error", "Email: " + EMAIL);
                     Toast.makeText(RegistroActivity.this, responseUser.getMensajeError(), Toast.LENGTH_LONG).show();
                     Intent intentHome = new Intent(RegistroActivity.this, MainActivity.class);
                     startActivity(intentHome);
@@ -285,27 +292,28 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
-    public String crypt(String clave) {
-        String encode_text= null;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String cifra(String sinCifrar) {
+        byte[] cifrado= null ;
         try {
-
-            RSA rsa = new RSA();
-
-            //le asignamos el Contexto
-            rsa.setContext(getBaseContext());
-
-            //Generamos un juego de claves
-            rsa.genKeyPair(1024);
-
-            //Guardamos en la memoria las claves
-            rsa.saveToDiskPrivateKey("rsa.pri");
-            rsa.saveToDiskPublicKey("rsa.pub");
-
-            //Ciframos
-            encode_text = rsa.Encrypt(clave);
+            final byte[] bytes = sinCifrar.getBytes("UTF-8");
+            final Cipher aes = obtieneCipher();
+            cifrado = aes.doFinal(bytes);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        return encode_text;
+
+        return Base64.getEncoder().encodeToString(cifrado);
+    }
+
+    private Cipher obtieneCipher() throws Exception {
+        final String frase = "FraseLargaConDiferentesLetrasNumerosYCaracteresEspeciales_áÁéÉíÍóÓúÚüÜñÑ1234567890!#%$&()=%_NO_USAR_ESTA_FRASE!_";
+        final MessageDigest digest = MessageDigest.getInstance("SHA");
+        digest.update(frase.getBytes("UTF-8"));
+        final SecretKeySpec key = new SecretKeySpec(digest.digest(), 0, 16, "AES");
+
+        final Cipher aes = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        aes.init(Cipher.ENCRYPT_MODE, key);
+        return aes;
     }
 }

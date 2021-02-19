@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/side_nav_bar"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="3dp"
+    android:layout_margin="6dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/id_UsuarioLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Nombre_user"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Nombre: " />
+            <TextView
+                android:id="@+id/tvNombreUser"
+                android:textColor="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fulano" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ApellidoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/ApellidoUser"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Apellido: " />
+            <TextView
+                android:id="@+id/tvApellidoUser"
+                android:textColor="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Avila" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/EmailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Email"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Email:  " />
+            <TextView
+                android:id="@+id/tvEmail"
+                android:textColor="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="fulano.avila@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/TelefonoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Telefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Telefono: " />
+            <TextView
+                android:id="@+id/tvTelefono"
+                android:textColor="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="09421541213" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/DireccionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Direccion: "/>
+            <TextView
+                android:id="@+id/tvDireccion"
+                android:textColor="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="En algun lugar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fechaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Fecha"
+                android:layout_width="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:layout_height="wrap_content"
+                android:text="Fecha de nacimiento: " />
+            <TextView
+                android:id="@+id/tvFechaNac"
+                android:textColor="@color/design_default_color_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="15/12/2018" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/RolLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Rol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Rol: " />
+            <TextView
+                android:id="@+id/tvRol"
+                android:textColor="@color/orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usuario" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/EstadoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/Estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance"
+                android:text="Estado: " />
+            <TextView
+                android:id="@+id/tvEstado"
+                android:textColor="@color/orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usuario" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/butoonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Editar"
+                android:layout_gravity="right"
+                android:elevation="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <Button
+                android:id="@+id/btn_elimiar"
+                android:layout_marginStart="10dp"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Eliminar"
+                android:layout_gravity="right"
+                android:elevation="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/orange"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
