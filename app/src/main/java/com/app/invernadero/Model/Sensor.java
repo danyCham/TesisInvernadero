@@ -31,7 +31,7 @@ public class Sensor {
     private String fecha;
     @SerializedName("semaforo")
     @Expose
-    private Integer semaforo;
+    private String semaforo;
     @SerializedName("CodigoError")
     @Expose
     private String codigoError;
@@ -59,7 +59,7 @@ public class Sensor {
      * @param sensor
      * @param semaforo
      */
-    public Sensor(Integer idRegistroSensor, String sensor, Integer valor, String unidadMedida, Double latitud, Double longitud, String fecha, Integer semaforo, String codigoError, String mensajeError) {
+    public Sensor(Integer idRegistroSensor, String sensor, Integer valor, String unidadMedida, Double latitud, Double longitud, String fecha, String semaforo, String codigoError, String mensajeError) {
         super();
         this.idRegistroSensor = idRegistroSensor;
         this.sensor = sensor;
@@ -129,11 +129,11 @@ public class Sensor {
         this.fecha = fecha;
     }
 
-    public Integer getSemaforo() {
+    public String getSemaforo() {
         return semaforo;
     }
 
-    public void setSemaforo(Integer semaforo) {
+    public void setSemaforo(String semaforo) {
         this.semaforo = semaforo;
     }
 

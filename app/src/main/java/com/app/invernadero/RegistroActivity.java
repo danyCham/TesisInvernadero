@@ -56,10 +56,6 @@ public class RegistroActivity extends AppCompatActivity {
     private int dia,mes,anio;
     private String fecha = "";
 
-    final java.util.Date utilDate = new java.util.Date(); //fecha actual
-    long lnMilisegundos = utilDate.getTime();
-    java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(lnMilisegundos);//fecha en el formato deseado
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

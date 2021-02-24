@@ -68,7 +68,7 @@ public class SensorAdaptador extends RecyclerView.Adapter<SensorAdaptador.ViewHo
         holder.tvLatitud.setText(sensor.getLatitud().toString());
         holder.tvLongitud.setText(sensor.getLongitud().toString());
         holder.tvFecha.setText(sensor.getFecha().substring(0,10));
-        //holder.tvSemaforo.setText(sensor.getSemaforo().toString());
+        holder.tvSemaforo.setText(sensor.getSemaforo());
 
     }
 

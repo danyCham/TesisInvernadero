@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EstadisticasActivity"></activity>
+        <activity android:name=".MyMarkerView"></activity>
+        <activity android:name=".EstadisticasActivity" />
         <activity android:name=".GalerySensor" />
         <activity android:name=".GaleryUser" />
         <activity android:name=".PerfilActivity" />
